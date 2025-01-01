@@ -10,8 +10,6 @@ public class TowerManager : SaiSingleton<TowerManager>
 {
     [SerializeField] protected TowerCode selectedTower = TowerCode.NoTower;
     [SerializeField] protected TowerCtrl towerPrefab;
-    [SerializeField] protected LayerMask layerMask = 6;
-    [SerializeField] protected float maxDistance = 100f;
     [SerializeField] protected bool towerPlaced = false;
     [SerializeField] protected TowerPlaceAble selectedPlaceAble;
     [SerializeField] protected Transform pointer;
@@ -119,22 +117,7 @@ public class TowerManager : SaiSingleton<TowerManager>
             this.selectedPlaceAble = null;
         }
 
-        //Vector3 mousePosition = Input.mousePosition;
-        //Ray ray = Camera.main.ScreenPointToRay(mousePosition);
-
-        //if (Physics.Raycast(ray, out RaycastHit hitInfo, this.maxDistance, layerMask))
-        //{
-        //    TowerPlaceAble placeAble = hitInfo.collider.transform.parent.GetComponent<TowerPlaceAble>();
-
-        //    this.selectedPlaceAble = placeAble;
-
-        //    Debug.DrawLine(ray.origin, hitInfo.point, Color.green);
-        //}
-        //else
-        //{
-        //    this.selectedPlaceAble = null;
-        //}
-        this.ShowTowerToPlace();
+        //this.ShowTowerToPlace();
     }
 
     public virtual void PlaceTower(TowerCode towerCode)
@@ -150,7 +133,16 @@ public class TowerManager : SaiSingleton<TowerManager>
 
     protected virtual void ShowTowerToPlace()
     {
-        if (this.towerPlaced) return;
+        if (!this.CanPlaceTower()) return;
+
+        this.pointer.position = this.selectedPlaceAble.GetPosition();
+        this.ShowTemplate(this.selectedTower);
+        if (InputHotkeys.Instance.IsPlaceTower) this.PlaceTower();
+    }
+
+    protected virtual bool CanPlaceTower()
+    {
+        if (this.towerPlaced) return false;
         this.selectedTower = MapKeyCodeToTowerCode(InputHotkeys.Instance.KeyCode);
         if (
             this.selectedPlaceAble == null ||
@@ -160,12 +152,9 @@ public class TowerManager : SaiSingleton<TowerManager>
         {
             //Hide template
             this.HideTemplate();
-            return;
+            return false;
         }
-
-        this.pointer.position = this.selectedPlaceAble.GetPosition();
-        this.ShowTemplate(this.selectedTower);
-        if (InputHotkeys.Instance.IsPlaceTower) this.PlaceTower();
+        return true;
     }
 
     protected virtual void PlaceTower()
@@ -173,6 +162,13 @@ public class TowerManager : SaiSingleton<TowerManager>
         this.towerPlaced = true;
         this.HideTemplate();
         Invoke(nameof(this.PlaceFinish), 0.3f);
+    }
+
+    public virtual bool TryPlaceTower()
+    {
+        if (!this.CanPlaceTower()) return false;
+        this.PlaceTower();
+        return true;
     }
 
     protected virtual void PlaceFinish()

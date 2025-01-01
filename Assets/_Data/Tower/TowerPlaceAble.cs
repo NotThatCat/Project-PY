@@ -33,10 +33,7 @@ public class TowerPlaceAble : PlayerInteractAble
 
     public override void MouseInteract()
     {
-        if(this.towerCtrl != null)
-        {
-            this.Interact();
-        }
+        this.Interact();
     }
 
     public override void Interact()
@@ -44,6 +41,10 @@ public class TowerPlaceAble : PlayerInteractAble
         if (this.towerCtrl != null)
         {
             UIUpgradeTower.Instance.ShowUI();
+        }
+        else
+        {
+            TowerManager.Instance.TryPlaceTower();
         }
     }
 

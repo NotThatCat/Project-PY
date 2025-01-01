@@ -46,13 +46,13 @@ public abstract class TowerCtrl : PoolObj
     {
         if (this.towerShooting != null) return;
         this.towerShooting = GetComponentInChildren<TowerShooting>();
-        Debug.Log(transform.name + ": LoadTowerShootings", gameObject);
+        //Debug.Log(transform.name + ": LoadTowerShootings", gameObject);
     }
-
+    
     protected virtual void LoadLevel()
     {
         if (this.level != null) return;
         this.level = GetComponentInChildren<LevelAbstract>();
-        Debug.Log(transform.name + ": LoadLevel", gameObject);
+        //Debug.Log(transform.name + ": LoadLevel", gameObject);
     }
 }
