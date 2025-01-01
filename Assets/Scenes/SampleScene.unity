@@ -2868,6 +2868,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 196453552}
+  - component: {fileID: 196453553}
   m_Layer: 0
   m_Name: Despawn
   m_TagString: Untagged
@@ -2890,6 +2891,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1295433882}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &196453553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 196453551}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce18df91f058bac468bdcd4ca79bf834, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parent: {fileID: 1295433883}
+  spawner: {fileID: 543284197}
+  isDespawnByTime: 1
+  timeLife: 7
+  currentTime: 7
 --- !u!4 &196640015 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5695374136816369354, guid: 2517f8e2178f0d043839a8cc2f8d7643, type: 3}
@@ -14094,6 +14112,7 @@ Transform:
   - {fileID: 1119416563}
   - {fileID: 1158193009}
   - {fileID: 1565086201}
+  - {fileID: 814727692}
   m_Father: {fileID: 639200427}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &766103211
@@ -14108,7 +14127,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7d887f93dc5bbc4aa4961514cbbc297, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  despawn: {fileID: 0}
+  despawn: {fileID: 814727693}
   radar: {fileID: 1119416560}
   rotator: {fileID: 1751361941}
   towerShooting: {fileID: 1762762815}
@@ -14674,6 +14693,55 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 810786021}
   m_CullTransparentMesh: 0
+--- !u!1 &814727691
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 814727692}
+  - component: {fileID: 814727693}
+  m_Layer: 0
+  m_Name: Despawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &814727692
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 814727691}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 766103210}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &814727693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 814727691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce18df91f058bac468bdcd4ca79bf834, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parent: {fileID: 766103211}
+  spawner: {fileID: 543284197}
+  isDespawnByTime: 1
+  timeLife: 7
+  currentTime: 7
 --- !u!1 &820935771
 GameObject:
   m_ObjectHideFlags: 0
@@ -24443,7 +24511,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49079561df5e7f94887d4bf3698ca9f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  despawn: {fileID: 0}
+  despawn: {fileID: 196453553}
   radar: {fileID: 1483231269}
   rotator: {fileID: 37209559}
   towerShooting: {fileID: 517841797}
@@ -25617,7 +25685,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1358066844
 RectTransform:
   m_ObjectHideFlags: 0
@@ -30508,6 +30576,7 @@ GameObject:
   - component: {fileID: 1632432276}
   - component: {fileID: 1632432275}
   - component: {fileID: 1632432274}
+  - component: {fileID: 1632432277}
   m_Layer: 5
   m_Name: Delete
   m_TagString: Untagged
@@ -30621,6 +30690,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1632432271}
   m_CullTransparentMesh: 0
+--- !u!114 &1632432277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1632432271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c35bc722380dc6428b3e9c264e5d47a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  button: {fileID: 1632432274}
+  towerCtrl: {fileID: 0}
 --- !u!1001 &1635531347
 PrefabInstance:
   m_ObjectHideFlags: 0
