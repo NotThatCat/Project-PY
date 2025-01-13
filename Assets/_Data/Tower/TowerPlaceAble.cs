@@ -13,7 +13,6 @@ public class TowerPlaceAble : PlayerInteractAble
 
     public virtual void SetTower(TowerCtrl towerCtrl)
     {
-        if (!this.canPlaceTower) return;
         this.canPlaceTower = false;
         this.towerCtrl = towerCtrl;
     }
@@ -22,8 +21,8 @@ public class TowerPlaceAble : PlayerInteractAble
     {
         if (this.canPlaceTower) return;
         this.canPlaceTower = true;
-        int gold = towerCtrl.SalePrice;
         this.towerCtrl.Despawn.DoDespawn();
+        this.towerCtrl = null;
     }
 
     public virtual bool CanPlace()
@@ -50,10 +49,9 @@ public class TowerPlaceAble : PlayerInteractAble
 
     public override void UnInteract()
     {
-        //if (this.towerCtrl != null)
+        //if (this.towerCtrl != null && !UIUpgradeTower.Instance.IsActive)
         //{
         //    UIUpgradeTower.Instance.HideUI();
         //}
-        //UITowerPlaceAble.Instance.HideUITowerInteract(this.CanPlace, this.towerCtrl, this.transform.position);
     }
 }

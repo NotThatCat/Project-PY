@@ -76,6 +76,7 @@ public class TowerShooting : TowerAbstract
 
     protected virtual EffectCtrl SpawnMuzzle(FirePoint firePoint)
     {
+        if (this.muzzleCode == EffectCode.NoName) return null;
         EffectCtrl hitPrefab = EffectSpawnerCtrl.Instance.Prefabs.GetByName(this.muzzleCode.ToString());
         EffectCtrl newHitEfffect = EffectSpawnerCtrl.Instance.Spawner.Spawn(hitPrefab, firePoint.transform.position, firePoint.transform.rotation);
         newHitEfffect.gameObject.SetActive(true);

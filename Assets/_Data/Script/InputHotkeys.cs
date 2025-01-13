@@ -21,6 +21,14 @@ public class InputHotkeys : SaiSingleton<InputHotkeys>
 
     [SerializeField] protected PlayerInteractAble playerInteractAble;
     public PlayerInteractAble PlayerInteractAble => playerInteractAble;
+    //public PlayerInteractAble PlayerInteractAble
+    //{
+    //    get
+    //    {
+    //        Debug.Log("Get InputHotkeys PlayerInteractAble");
+    //        return playerInteractAble;
+    //    }
+    //}
     [SerializeField] protected LayerMask layerMask = 256;
     [SerializeField] protected float maxDistance = 100f;
 
@@ -61,23 +69,24 @@ public class InputHotkeys : SaiSingleton<InputHotkeys>
     {
         this.isPlaceTower = Input.GetKey(KeyCode.C);
 
-        for (int i = 1; i <= 9; i++) 
+        for (int i = 1; i <= 9; i++)
         {
             KeyCode key = (KeyCode)System.Enum.Parse(typeof(KeyCode), "Alpha" + i);
-            if (Input.GetKeyDown(key)) 
+            if (Input.GetKeyDown(key))
             {
                 this.keyCode = this.keyCode == key ? KeyCode.None : key;
-                break; 
+                break;
             }
         }
     }
 
     public virtual void ToogleNumber(KeyCode key)
     {
-        if(this.keyCode != key)
+        if (this.keyCode != key)
         {
             this.keyCode = key;
-        } else
+        }
+        else
         {
             this.keyCode = KeyCode.None;
         }

@@ -14,7 +14,8 @@ public class TowerManager : SaiSingleton<TowerManager>
     [SerializeField] protected TowerPlaceAble selectedPlaceAble;
     [SerializeField] protected Transform pointer;
     [SerializeField] protected List<TowerTemplate> towerTemplates = new();
-    [SerializeField] protected TowerPriceManager towerPriceManager;
+    [SerializeField] protected TowerInforManager towerInfoManager;
+    public TowerInforManager TowerPriceManager => towerInfoManager;
 
     protected override void Awake()
     {
@@ -63,7 +64,7 @@ public class TowerManager : SaiSingleton<TowerManager>
 
     public virtual int GetTowerPrice(TowerCode towerCode)
     {
-        return (this.towerPriceManager.GetTowerPrice(towerCode));
+        return (this.towerInfoManager.GetTowerPrice(towerCode));
     }
 
     protected virtual bool CanBuyTower()
@@ -73,8 +74,7 @@ public class TowerManager : SaiSingleton<TowerManager>
 
     public virtual bool CanBuyTower(TowerCode towerCode)
     {
-        ItemInventory item = InventoriesManager.Instance.Currency().FindItem(ItemCode.Gold);
-        int goldCount = item == null ? 0 : item.itemCount;
+        int goldCount = InventoriesManager.Instance.GetPlayerGold();
         return goldCount >= this.GetTowerPrice(towerCode) ? true : false;
     }
 
@@ -100,8 +100,8 @@ public class TowerManager : SaiSingleton<TowerManager>
 
     private void LoadTowerPriceManager()
     {
-        if (this.towerPriceManager != null) return;
-        this.towerPriceManager = transform.GetComponent<TowerPriceManager>();
+        if (this.towerInfoManager != null) return;
+        this.towerInfoManager = transform.GetComponent<TowerInforManager>();
     }
 
     protected virtual void GetCurrentPlaceAble()
@@ -206,12 +206,19 @@ public class TowerManager : SaiSingleton<TowerManager>
         return TowerSpawnerCtrl.Instance.Spawner.Spawn(prefab, this.selectedPlaceAble.GetPosition());
     }
 
+    protected virtual TowerCtrl Spawn(TowerCtrl prefab, TowerPlaceAble placeAble)
+    {
+        return TowerSpawnerCtrl.Instance.Spawner.Spawn(prefab, placeAble.GetPosition());
+    }
+
     protected virtual TowerCode MapKeyCodeToTowerCode(KeyCode keyCode)
     {
         switch (keyCode)
         {
-            case KeyCode.Alpha1: return TowerCode.MachineGun_1;
-            case KeyCode.Alpha2: return TowerCode.CanonGun_1;
+            case KeyCode.Alpha1: return TowerCode.Archer_1;
+            case KeyCode.Alpha2: return TowerCode.Canon_1;
+            case KeyCode.Alpha3: return TowerCode.Mage_1;
+            case KeyCode.Alpha4: return TowerCode.Barrack_1;
             default: return TowerCode.NoTower;
         }
     }
@@ -221,8 +228,27 @@ public class TowerManager : SaiSingleton<TowerManager>
         return TowerSpawnerCtrl.Instance.Prefabs.GetByName(this.selectedTower.ToString());
     }
 
-    public virtual void UpgradeTower(TowerCtrl towerCtrl)
+    public virtual void UpgradeTower(TowerCtrl ctrl, TowerPlaceAble placeAble)
     {
-        throw new NotImplementedException();
+        //Debug.Log(transform.name + "UpgradeTower");
+        TowerCode targetTower = ctrl.Code;
+
+        TowerCode upgradeCode = towerInfoManager.GetUpgrade(targetTower);
+
+        if (upgradeCode != TowerCode.NoTower)
+        {
+            ctrl.Despawn.DoDespawn();
+
+            TowerCtrl newTower = this.Spawn(TowerSpawnerCtrl.Instance.Prefabs.GetByName(upgradeCode.ToString()), placeAble);
+            placeAble.SetTower(newTower);
+            newTower.TowerShooting.Active();
+            newTower.SetActive(true);
+
+            EffectCtrl prefab = EffectSpawnerCtrl.Instance.Prefabs.GetByName(EffectCode.Place1.ToString());
+            EffectCtrl newEfffect = EffectSpawnerCtrl.Instance.Spawner.Spawn(prefab, placeAble.GetPosition(), transform.rotation);
+            newEfffect.gameObject.SetActive(true);
+        }
+
     }
+
 }

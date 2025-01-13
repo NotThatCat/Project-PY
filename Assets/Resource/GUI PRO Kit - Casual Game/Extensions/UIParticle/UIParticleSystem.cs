@@ -91,7 +91,7 @@ namespace UnityEngine.UI.Extensions.CasualGame
                         currentTexture = Texture2D.whiteTexture;
                 }
                 material = currentMaterial;
-                // automatically set scaling
+                // automatically set goldScaling
 #if UNITY_5_5_OR_NEWER
                 mainModule.scalingMode = ParticleSystemScalingMode.Hierarchy;
 #else

@@ -1,9 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class TowerCtrl : PoolObj
 {
+    [SerializeField] protected TowerCode code;
+    public TowerCode Code => code;
     [SerializeField] protected TowerRadar radar;
     public TowerRadar Radar => radar;
 
@@ -19,6 +22,9 @@ public abstract class TowerCtrl : PoolObj
     [SerializeField] protected int salePrice;
     public int SalePrice => salePrice;
 
+    [SerializeField] protected TowerPlaceAble towerPlaceAble;
+    public TowerPlaceAble TowerPlaceAble => towerPlaceAble;
+
     protected override void LoadComponents()
     {
         base.LoadComponents();
@@ -26,6 +32,13 @@ public abstract class TowerCtrl : PoolObj
         this.LoadRotator();
         this.LoadTowerShootings();
         this.LoadLevel();
+        this.LoadCode();
+    }
+
+    private void LoadCode()
+    {
+        Enum.TryParse(this.GetName(), out TowerCode code);
+        this.code = code;
     }
 
     protected virtual void LoadRadar()
@@ -54,5 +67,10 @@ public abstract class TowerCtrl : PoolObj
         if (this.level != null) return;
         this.level = GetComponentInChildren<LevelAbstract>();
         //Debug.Log(transform.name + ": LoadLevel", gameObject);
+    }
+
+    public virtual void SetPlaceAble(TowerPlaceAble placeAble)
+    {
+        this.towerPlaceAble = placeAble;
     }
 }

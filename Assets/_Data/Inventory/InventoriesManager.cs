@@ -110,4 +110,11 @@ public class InventoriesManager : SaiSingleton<InventoriesManager>
         InventoryCtrl inventoryCtrl = this.GetByCodeName(invCodeName);
         return inventoryCtrl.FindItem(itemCode);
     }
+
+    public virtual int GetPlayerGold()
+    {
+        ItemInventory item = this.Currency().FindItem(ItemCode.Gold);
+        int goldCount = item == null ? 0 : item.itemCount;
+        return goldCount;
+    }
 }

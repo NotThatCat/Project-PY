@@ -4,7 +4,14 @@ using UnityEngine.EventSystems;
 public abstract class DamageReceiver : PMono
 {
     [SerializeField] protected int currentHP = 10;
+    public int CurrentHP => currentHP;
+
     [SerializeField] protected int maxHP = 10;
+    public int MaxHP => maxHP;
+
+    [SerializeField] protected int baseHP = 10;
+    public int BaseHP => baseHP;
+
     [SerializeField] protected bool isDead = false;
     [SerializeField] protected bool isImmotal = false;
 
@@ -34,5 +41,10 @@ public abstract class DamageReceiver : PMono
     protected virtual void Reborn()
     {
         this.currentHP = this.maxHP;
+    }
+
+    public virtual void EffectReceiver(StatusCode code, float time)
+    {
+
     }
 }

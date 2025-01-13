@@ -67,4 +67,9 @@ public class EnemyMoving : EnemyAbstract
         isMoving = !this.ctrl.Agent.isStopped;
         this.ctrl.Animator.SetBool("isMoving", isMoving);
     }
+
+    protected virtual void OnEnable()
+    {
+        this.currentPointIndex = 0;
+    }
 }

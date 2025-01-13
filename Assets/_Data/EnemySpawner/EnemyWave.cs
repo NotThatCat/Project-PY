@@ -49,7 +49,7 @@ public class EnemyWave : PMono
         EnemyCtrl newEnemy = EnemySpawnerCtrl.Instance.Spawner.Spawn(prefab, transform.position);
 
         this.SetEnemyPath(newEnemy);
-
+        newEnemy.Level.SetLevel(this.id + 1);
         newEnemy.gameObject.SetActive(true);
         this.spawnedEnemies.Add(newEnemy);
     }

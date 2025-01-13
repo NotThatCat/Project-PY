@@ -28,4 +28,11 @@ public abstract class LevelAbstract : PMono
     {
         return this.nextLevelExp = this.currentLevel * 10;
     }
+
+    public virtual void SetLevel(int level)
+    {
+        if (level <= 0) this.currentLevel = 1;
+        if (level <= this.maxLevel) this.currentLevel = level;
+        if (level > this.maxLevel) this.currentLevel = this.maxLevel;
+    }
 }

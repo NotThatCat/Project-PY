@@ -1,11 +1,15 @@
+using Microsoft.Unity.VisualStudio.Editor;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class EnemyDamageReceiver : DamageReceiver
 {
+    [SerializeField] protected float hpScaling = 1.1f;
     [SerializeField] protected EnemyCtrl ctrl;
     [SerializeField] protected CapsuleCollider capsuleCollider;
+    [SerializeField] protected int baseGoldDrop = 1;
+    [SerializeField] protected float goldScaling = 1.2f;
 
 
     protected override void LoadComponents()
@@ -46,18 +50,9 @@ public class EnemyDamageReceiver : DamageReceiver
         if (!this.ctrl.Animator.GetBool("isDying"))
         {
             this.ctrl.Animator.SetTrigger("isDying");
-            int timerID = TimerManager.Instance.StartTimer(2f, this.DoDespawn);
+            int timerID = TimerManager.Instance.StartTimer(0.5f, this.DoDespawn);
 
-            InventoriesManager.Instance.AddItem(ItemCode.Gold, 1);
-            //Debug.Log(transform.name + ": timerID: " + timerID, gameObject);
-
-            //ItemDropSpawnerCtrl.Instance.DropMany(ItemCode.Gold, transform.position, 10);
-            //ItemDropSpawnerCtrl.Instance.DropMany(ItemCode.Crystal, transform.position, 3);
-            //ItemDropSpawnerCtrl.Instance.Drop(ItemCode.Wand, transform.position, 1);
-            //ItemDropSpawnerCtrl.Instance.Drop(ItemCode.WandEpic, transform.position, 1);
-            //ItemDropSpawnerCtrl.Instance.Drop(ItemCode.Hammer, transform.position, 1);
-            //ItemDropSpawnerCtrl.Instance.Drop(ItemCode.Axe, transform.position, 1);
-            //InventoriesManager.Instance.AddItem(ItemCode.PlayerExp, 1);
+            InventoriesManager.Instance.AddItem(ItemCode.Gold, this.GetGoldDropByLevel(this.ctrl.Level.CurrentLevel));
         }
     }
 
@@ -67,7 +62,7 @@ public class EnemyDamageReceiver : DamageReceiver
         if (!this.ctrl.Animator.GetBool("isHit"))
         {
             this.ctrl.Animator.SetTrigger("isHit");
-            int timerID = TimerManager.Instance.StartTimer(2f, this.ResetHurtTrigger);
+            int timerID = TimerManager.Instance.StartTimer(0.5f, this.ResetHurtTrigger);
         }
     }
 
@@ -77,7 +72,32 @@ public class EnemyDamageReceiver : DamageReceiver
     }
     protected override void Reborn()
     {
-        base.Reborn();
+        this.maxHP = this.GetHpByLevel(this.ctrl.Level.CurrentLevel);
+        this.currentHP = this.maxHP;
         this.capsuleCollider.enabled = true;
+    }
+
+    protected virtual int GetHpByLevel(int level)
+    {
+        return (int)(this.baseHP * Mathf.Pow(hpScaling, level));
+    }
+
+    protected virtual int GetGoldDropByLevel(int level)
+    {
+        return (int)(this.baseGoldDrop * Mathf.Pow(goldScaling, level));
+    }
+
+    public override void EffectReceiver(StatusCode code, float time)
+    {
+        switch (code)
+        {
+            case StatusCode.Stun:
+                this.Stun(time); break;
+        }
+    }
+
+    public virtual void Stun(float time)
+    {
+        this.ctrl.StunEnemy(time);
     }
 }

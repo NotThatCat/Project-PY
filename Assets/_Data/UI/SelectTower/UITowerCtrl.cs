@@ -31,7 +31,7 @@ public class UITowerCtrl : ButtonAbstact
         this.LoadText();
     }
 
-    protected virtual void LateUpdate()
+    protected virtual void FixedUpdate()
     {
         this.UpdateUI();
     }
@@ -58,6 +58,7 @@ public class UITowerCtrl : ButtonAbstact
 
     protected virtual void ToogleBG()
     {
+        this.canBuyTower = !this.canBuyTower;
         this.BGRed.gameObject.SetActive(!canBuyTower);
         this.BGBlue.gameObject.SetActive(canBuyTower);
     }

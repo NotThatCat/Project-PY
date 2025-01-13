@@ -5,6 +5,9 @@ public class InputManager : SaiSingleton<InputManager>
     [SerializeField] protected PlayerInteractAble playerInteractAble;
     public PlayerInteractAble PlayerInteractAble => playerInteractAble;
 
+    [SerializeField] protected PlayerInteractAble currentInteractAble;
+    public PlayerInteractAble CurrentInteractAble => currentInteractAble;
+
     private void Update()
     {
         this.CheckMouseClick();
@@ -14,16 +17,25 @@ public class InputManager : SaiSingleton<InputManager>
     {
         if (Input.GetMouseButtonDown(0))
         {
+            //Debug.Log("Mouse Down");
             PlayerInteractAble interactAble = InputHotkeys.Instance.PlayerInteractAble;
             if (interactAble != null)
             {
-                interactAble.MouseInteract();
                 this.playerInteractAble = interactAble;
+                if (interactAble.CanMouseInteract())
+                {
+                    this.currentInteractAble = interactAble;
+                    interactAble.MouseInteract();
+                }
             }
             else
             {
-                if (this.playerInteractAble != null)
-                    this.playerInteractAble.UnInteract();
+                //if (this.currentInteractAble != null)
+                //{
+                //    this.currentInteractAble.UnInteract();
+                //    this.currentInteractAble = null;
+                //}
+                InputHotkeys.Instance.ToogleNumber(KeyCode.None);
             }
         }
     }
