@@ -38,12 +38,13 @@ public class TimerManager : SaiSingleton<TimerManager>
             onUpdate?.Invoke(time);
             yield return null;
         }
-        lookups.Remove(timerID);
         onCompleted?.Invoke();
+        this.StopTimer(timerID);
     }
 
     public virtual void StopTimer(int timerID)
     {
         if (this.lookups.ContainsKey(timerID)) StopCoroutine(this.lookups[timerID]);
+        lookups.Remove(timerID);
     }
 }

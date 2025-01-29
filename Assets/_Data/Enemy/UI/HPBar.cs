@@ -47,7 +47,7 @@ public class HPBar : PMono
         this.health = this.ctrl.EnemyDamageReceiver.CurrentHP;
     }
 
-    protected virtual void Start()
+    protected override void Start()
     {
         this.GetCurrentHealth();
         this.maxHealth = this.ctrl.EnemyDamageReceiver.MaxHP;

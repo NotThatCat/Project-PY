@@ -7,10 +7,12 @@ public class InventoriesManager : SaiSingleton<InventoriesManager>
     [SerializeField] protected List<InventoryCtrl> inventories;
     [SerializeField] protected List<ItemProfileSO> itemProfiles;
 
+    [SerializeField] protected int startUpGold = 100;
+
     protected override void Awake()
     {
         base.Awake();
-        InventoriesManager.Instance.AddItem(ItemCode.Gold, 100);
+        InventoriesManager.Instance.AddItem(ItemCode.Gold, this.startUpGold);
     }
 
     protected override void LoadComponents()

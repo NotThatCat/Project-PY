@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class UISelectTower : SaiSingleton<UISelectTower>
 {
-    [SerializeField] protected List<UITowerCtrl> towerCtrls = new List<UITowerCtrl>();
+    [SerializeField] protected List<BtnSelectTower> towerCtrls = new List<BtnSelectTower>();
 
     protected override void LoadComponents()
     {
@@ -24,7 +24,7 @@ public class UISelectTower : SaiSingleton<UISelectTower>
         {
             foreach (Transform child in holder)
             {
-                UITowerCtrl uITowerCtrl = child.GetComponent<UITowerCtrl>();
+                BtnSelectTower uITowerCtrl = child.GetComponent<BtnSelectTower>();
                 if (uITowerCtrl != null)
                 {
                     KeyCode key = (KeyCode)System.Enum.Parse(typeof(KeyCode), "Alpha" + count);

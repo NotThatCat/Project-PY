@@ -46,6 +46,7 @@ public class EnemyDamageReceiver : DamageReceiver
     {
         //Debug.Log(transform.name + ": OnDead", gameObject);
 
+        this.ctrl.OnEnemyDead.Invoke(this.ctrl);
         this.capsuleCollider.enabled = false;
         if (!this.ctrl.Animator.GetBool("isDying"))
         {

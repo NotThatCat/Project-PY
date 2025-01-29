@@ -10,6 +10,7 @@ using UnityEngine.UI;
 public class UIUpgradeTower : SaiSingleton<UIUpgradeTower>
 {
     [SerializeField] protected Transform Scroll;
+    [SerializeField] protected Transform UIBlock;
     [SerializeField] protected List<ButtonInteractTower> buttonList = new List<ButtonInteractTower>();
     [SerializeField] protected bool isActive = false;
     [SerializeField] public bool IsActive => isActive;
@@ -66,6 +67,7 @@ public class UIUpgradeTower : SaiSingleton<UIUpgradeTower>
         //}
 
         this.Scroll.gameObject.SetActive(true);
+        this.UIBlock.gameObject.SetActive(true);
         this.isActive = true;
         foreach (ButtonInteractTower button in buttonList)
         {
@@ -76,6 +78,7 @@ public class UIUpgradeTower : SaiSingleton<UIUpgradeTower>
     public virtual void HideUI()
     {
         this.Scroll.gameObject.SetActive(false);
+        this.UIBlock.gameObject.SetActive(false);
         this.isActive = false;
     }
 }

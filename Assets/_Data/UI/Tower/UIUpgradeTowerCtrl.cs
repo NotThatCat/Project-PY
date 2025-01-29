@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIUpgradeTowerCtrl : ButtonAbstact
+public class UIUpgradeTowerCtrl : ButttonAbstract
 {
     [SerializeField] protected TowerCode towerCode = TowerCode.NoTower;
     public TowerCode TowerCode => towerCode;

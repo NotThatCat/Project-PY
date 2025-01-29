@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public abstract class ButtonAbstact : PMono
+public abstract class ButttonAbstract : PMono
 {
     [SerializeField] protected Button button;
 

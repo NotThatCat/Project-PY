@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,9 +22,10 @@ public class EnemyCtrl : PoolObj
     [SerializeField] protected EnemyMoving moving;
     public EnemyMoving Moving => moving;
 
-    [SerializeField] protected bool isStopped = false;
-    [SerializeField] protected float stunTime = 0;
-    [SerializeField] protected float stunCurrentStunTime = 0;
+    public Action<EnemyCtrl> OnEnemyDead { get; internal set; }
+
+    [SerializeField] protected bool isStunned = false;
+    [SerializeField] protected float stunTimer = 0;
 
     protected override void LoadComponents()
     {
@@ -73,38 +75,42 @@ public class EnemyCtrl : PoolObj
         Debug.Log(transform.name + ": LoadMoving", gameObject);
     }
 
-    protected virtual void OnEnable()
+    protected override void Start()
     {
         this.Agent.isStopped = false;
-        this.isStopped = this.Agent.isStopped;
-        this.stunCurrentStunTime = 0;
-        this.stunTime = 0;
+        this.isStunned = this.Agent.isStopped;
+        this.stunTimer = 0;
+    }
+
+    protected virtual void OnDisable()
+    {
+        EnemyManager.Instance.RemoveEnemy(this);
     }
 
     public virtual void StunEnemy(float time)
     {
         this.Agent.isStopped = true;
-        this.isStopped = this.Agent.isStopped;
-        this.stunTime += time;
+        this.isStunned = this.Agent.isStopped;
+        this.stunTimer += time;
+        //TimerManager.Instance.StartTimer(time, this.Unstun);
     }
 
     public virtual void Unstun()
     {
+        if (this.enemyDamageReceiver.IsDead()) return;
         this.Agent.isStopped = false;
-        this.isStopped = this.Agent.isStopped;
-        this.stunCurrentStunTime = 0;
-        this.stunTime = 0;
+        this.isStunned = this.Agent.isStopped;
+        this.stunTimer = 0;
     }
 
-    protected virtual void FixedUpdate()
+    public void UpdateLogic(float deltaTime)
     {
-        if (this.isStopped)
+        if (!isStunned) return;
+        stunTimer -= deltaTime;
+        if (stunTimer <= 0f)
         {
-            this.stunCurrentStunTime += Time.fixedDeltaTime;
-            if(this.stunCurrentStunTime >= this.stunTime)
-            {
-                this.Unstun();
-            }
+            stunTimer = 0f;
+            this.Unstun();
         }
     }
 }

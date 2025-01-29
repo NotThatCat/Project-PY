@@ -17,10 +17,10 @@ public class MapManager : PMono
         //this.CreateMap();
     }
 
-    protected virtual void Start()
-    {
-        //this.CreateMap();
-    }
+    //protected virtual void Start()
+    //{
+    //    //this.CreateMap();
+    //}
 
     protected virtual void CreateMap()
     {

@@ -75,8 +75,12 @@ public class EnemyWaveManager : SaiSingleton<EnemyWaveManager>
             TimerManager.Instance.StopTimer(this.timerID);
             this.timerID = -1;
         }
-        this.enemyWaves[this.nextWaveID].gameObject.SetActive(true);
-        this.enemyWaves[this.nextWaveID].StartWave();
+
+        if (this.nextWaveID < enemyWaves.Count)
+        {
+            this.enemyWaves[this.nextWaveID].gameObject.SetActive(true);
+            this.enemyWaves[this.nextWaveID].StartWave();
+        }
     }
 
 }

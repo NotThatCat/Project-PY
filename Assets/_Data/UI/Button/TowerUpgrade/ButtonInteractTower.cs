@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public abstract class ButtonInteractTower : ButtonAbstact
+public abstract class ButtonInteractTower : ButttonAbstract
 {
     [SerializeField] protected TowerCtrl towerCtrl;
     [SerializeField] protected TextPrice textPrice;
