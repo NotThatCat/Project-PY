@@ -44,6 +44,15 @@ public class BtnSelectTower : ButttonAbstract
         }
     }
 
+    protected virtual bool IsSelected()
+    {
+        if (InputHotkeys.Instance.KeyCode == this.keyCode)
+        {
+            return true;
+        }
+        return false;
+    }
+
     protected virtual void LoadBackGround()
     {
         this.BGRed = transform.Find("BGRed");
@@ -95,5 +104,14 @@ public class BtnSelectTower : ButttonAbstract
     public override void OnClick()
     {
         InputHotkeys.Instance.ToogleNumber(this.keyCode);
+        if (this.IsSelected())
+        {
+            UISelectTower.Instance.Select(this);
+        }
+        else
+        {
+
+            UISelectTower.Instance.DeSelect();
+        }
     }
 }

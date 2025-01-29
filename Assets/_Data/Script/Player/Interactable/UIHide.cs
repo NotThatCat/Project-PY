@@ -8,6 +8,7 @@ public class UIHide : PlayerInteractAble
     public override void Interact()
     {
         UIUpgradeTower.Instance.HideUI();
+        UISelectTower.Instance.DeSelect();
     }
 
     public override void UnInteract()
