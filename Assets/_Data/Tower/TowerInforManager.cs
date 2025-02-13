@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
+using System.Linq;
 
 public class TowerInforManager : PMono
 {
@@ -14,6 +16,18 @@ public class TowerInforManager : PMono
         }
         return 0;
     }
+
+    public virtual int GetUpgradePrice(TowerCode code)
+    {
+        TowerCode upgradeCode = this.GetUpgrade(code);
+        if (upgradeCode != TowerCode.NoTower)
+        {
+            return this.GetTowerPrice(upgradeCode);
+        }
+
+        return -1;
+    }
+
 
     public virtual int GetTowerSalePrice(TowerCode code)
     {
@@ -38,5 +52,10 @@ public class TowerInforManager : PMono
             }
         }
         return TowerCode.NoTower;
+    }
+
+    public List<TowerCode> GetAllTowerCodes()
+    {
+        return Enum.GetValues(typeof(TowerCode)).Cast<TowerCode>().ToList();
     }
 }

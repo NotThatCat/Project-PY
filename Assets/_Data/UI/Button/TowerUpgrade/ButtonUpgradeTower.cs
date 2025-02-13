@@ -6,11 +6,12 @@ public class ButtonUpgradeTower : ButtonInteractTower
 {
     [SerializeField] protected int upgradePrice = 0;
     [SerializeField] protected bool canBuyTower = false;
+    [SerializeField] protected bool isMaxed = false;
 
     public override void OnClick()
     {
         //Debug.Log(transform.name + "OnClick");
-        if (!this.canBuyTower) return;
+        if (!this.canBuyTower && this.isMaxed) return;
         TowerManager.Instance.UpgradeTower(this.towerCtrl, this.placeAble);
 
         InventoriesManager.Instance.RemoveItem(ItemCode.Gold, upgradePrice);
@@ -25,8 +26,18 @@ public class ButtonUpgradeTower : ButtonInteractTower
         if (this.placeAble != null)
         {
             this.towerCtrl = this.placeAble.TowerCtrl;
-            this.upgradePrice = TowerManager.Instance.TowerPriceManager.GetTowerPrice(this.towerCtrl.Code);
-            this.textPrice.LoadPrice(this.upgradePrice.ToString());
+            TowerCode upgradeCode = TowerManager.Instance.TowerPriceManager.GetUpgrade(this.placeAble.TowerCtrl.Code);
+            this.upgradePrice = TowerManager.Instance.TowerPriceManager.GetUpgradePrice(upgradeCode);
+            if (this.upgradePrice < 0)
+            {
+                this.isMaxed = true;
+                this.textPrice.LoadPrice("Maxed");
+            }
+            else
+            {
+                this.textPrice.LoadPrice(this.upgradePrice.ToString());
+                this.isMaxed = false;
+            }
         }
 
     }
@@ -38,7 +49,7 @@ public class ButtonUpgradeTower : ButtonInteractTower
 
     protected virtual void UpdateUI()
     {
-        if (canBuyTower != TowerManager.Instance.CanBuyTower(this.towerCtrl.Code))
+        if (canBuyTower != TowerManager.Instance.CanBuyUpgrade(this.towerCtrl.Code))
         {
             this.ToogleBG();
         }
@@ -46,8 +57,16 @@ public class ButtonUpgradeTower : ButtonInteractTower
 
     protected virtual void ToogleBG()
     {
-        this.canBuyTower = !this.canBuyTower;
-        this.BGRed.gameObject.SetActive(!canBuyTower);
-        this.BGBlue.gameObject.SetActive(canBuyTower);
+        if (this.isMaxed)
+        {
+            this.BGBlue.gameObject.SetActive(this.isMaxed);
+            this.BGRed.gameObject.SetActive(!this.isMaxed);
+        }
+        else
+        {
+            this.canBuyTower = !this.canBuyTower;
+            this.BGRed.gameObject.SetActive(!canBuyTower);
+            this.BGBlue.gameObject.SetActive(canBuyTower);
+        }
     }
 }

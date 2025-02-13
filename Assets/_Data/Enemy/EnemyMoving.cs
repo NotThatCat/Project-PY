@@ -73,8 +73,7 @@ public class EnemyMoving : EnemyAbstract
                 this.currentPointIndex++;
                 if (this.path != null && this.currentPointIndex >= this.path.Points.Count)
                 {
-                    this.isFinish = true;
-                    this.ctrl.Agent.isStopped = true;
+                    this.OnFinish();
                     return;
                 }
             }
@@ -94,11 +93,20 @@ public class EnemyMoving : EnemyAbstract
 
     protected virtual void UpdateMovingStatus()
     {
+        if (this.isFinish) return;
         bool currentMoving = !this.ctrl.Agent.isStopped;
         if (currentMoving != this.isMoving)
         {
             this.isMoving = currentMoving;
         }
+    }
+
+    protected virtual void OnFinish()
+    {
+        this.isFinish = true;
+        this.ctrl.Agent.isStopped = true;
+        PlayerCtrl.Instance.PlayerDamageReceiver.Receive(1, null);
+        this.ctrl.Despawn.DoDespawn();
     }
 }
 

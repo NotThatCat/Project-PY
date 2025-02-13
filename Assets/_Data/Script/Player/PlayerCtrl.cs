@@ -5,19 +5,24 @@ using UnityEngine.AI;
 
 public class PlayerCtrl : SaiSingleton<PlayerCtrl>
 {
-    [SerializeField] protected CrosshairPointer crosshairPointer;
-    public CrosshairPointer CrosshairPointer => crosshairPointer;
+
+    [SerializeField] protected PlayerDamageReceiver playerDamageReceiver;
+    public PlayerDamageReceiver PlayerDamageReceiver => playerDamageReceiver;
 
     protected override void LoadComponents()
     {
-
-        this.LoadCrosshairPointer();
+        this.LoadPlayerDamageReceiver();
     }
 
-    protected virtual void LoadCrosshairPointer()
+    protected virtual void LoadPlayerDamageReceiver()
     {
-        if (this.crosshairPointer != null) return;
-        this.crosshairPointer = GetComponentInChildren<CrosshairPointer>();
-        Debug.Log(transform.name + ": LoadCrosshairPointer", gameObject);
+        if (this.playerDamageReceiver != null) return;
+        this.playerDamageReceiver = GetComponentInChildren<PlayerDamageReceiver>();
+        Debug.Log(transform.name + ": PlayerDamageReceiver", gameObject);
+    }
+
+    public override void Init()
+    {
+
     }
 }

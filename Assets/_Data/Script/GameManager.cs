@@ -59,5 +59,18 @@ public class GameManager : SaiSingleton<GameManager>
         this.CurrentScene = "Level_" + level;
 
         Time.timeScale = 1;
+        TimerManager.Instance.StartTimer(1f, this.LevelInit);
+    }
+
+    protected virtual void LevelInit()
+    {
+        InventoriesManager.Instance.Init();
+        TowerManager.Instance.Init();
+        EnemyWaveManager.Instance.StartNextWave();
+    }
+
+    public virtual void GameOver()
+    {
+        UIGameOver.Instance.Show();
     }
 }

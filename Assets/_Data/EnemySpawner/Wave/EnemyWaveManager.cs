@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemyWaveManager : SaiSingleton<EnemyWaveManager>
@@ -7,6 +9,8 @@ public class EnemyWaveManager : SaiSingleton<EnemyWaveManager>
     [SerializeField] protected List<EnemyWave> enemyWaves = new();
     [SerializeField] protected int nextWaveID = 0;
     [SerializeField] protected int timerID = -1;
+
+    [SerializeField] protected Action<int> OnWaveChange;
 
 
     protected override void Awake()
@@ -21,11 +25,6 @@ public class EnemyWaveManager : SaiSingleton<EnemyWaveManager>
         {
             wave.gameObject.SetActive(false);
         }
-    }
-
-    protected override void Start()
-    {
-        this.StartNextWave();
     }
 
     protected virtual void FixedUpdate()
@@ -83,4 +82,18 @@ public class EnemyWaveManager : SaiSingleton<EnemyWaveManager>
         }
     }
 
+    public virtual int GetTotalWave()
+    {
+        return this.enemyWaves.Count;
+    }
+
+    public virtual int GetCurrentWave()
+    {
+        return this.nextWaveID;
+    }
+
+    public virtual void RegisOnWaveChange(Action<int> action)
+    {
+        this.OnWaveChange += action;
+    }
 }

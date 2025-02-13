@@ -38,7 +38,7 @@ public class UIUpgradeTowerCtrl : ButttonAbstract
 
     protected virtual void UpdateUI()
     {
-        if (canUpgradeTower != TowerManager.Instance.CanBuyTower(this.towerCode))
+        if (canUpgradeTower != TowerManager.Instance.CanBuyTowerByCode(this.towerCode))
         {
             this.ToogleBG();
         }

@@ -36,7 +36,7 @@ public class HPBar : PMono
             this.healthSlider.value = this.health;
         }
 
-        if(this.healthSlider.value != this.easeHealthSlider.value)
+        if (this.healthSlider.value != this.easeHealthSlider.value)
         {
             this.easeHealthSlider.value = Mathf.Lerp(this.easeHealthSlider.value, this.health, this.lerpSpeed);
         }
@@ -45,11 +45,17 @@ public class HPBar : PMono
     protected virtual void GetCurrentHealth()
     {
         this.health = this.ctrl.EnemyDamageReceiver.CurrentHP;
+        if (this.maxHealth != this.ctrl.EnemyDamageReceiver.MaxHP)
+        {
+            this.maxHealth = this.ctrl.EnemyDamageReceiver.MaxHP;
+            this.UpdateSlider();
+        }
     }
 
     protected override void Start()
     {
         this.GetCurrentHealth();
+        this.easeHealthSlider.value = this.health;
         this.maxHealth = this.ctrl.EnemyDamageReceiver.MaxHP;
         this.UpdateSlider();
     }

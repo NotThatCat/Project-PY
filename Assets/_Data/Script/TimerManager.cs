@@ -6,7 +6,7 @@ using UnityEngine;
 public class TimerManager : SaiSingleton<TimerManager>
 {
     [SerializeField] private int _IDCounter = 0;
-    [SerializeField] private int _IDs = 0;
+    //[SerializeField] private int _IDs = 0;
     private Dictionary<int, Coroutine> lookups = new Dictionary<int, Coroutine>();
 
 

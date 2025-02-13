@@ -15,6 +15,7 @@ public class TowerManager : SaiSingleton<TowerManager>
     [SerializeField] protected Transform pointer;
     [SerializeField] protected List<TowerTemplate> towerTemplates = new();
     [SerializeField] protected TowerInforManager towerInfoManager;
+    [SerializeField] protected Dictionary<TowerCode, bool> CanBuyTower = new Dictionary<TowerCode, bool>();
     public TowerInforManager TowerPriceManager => towerInfoManager;
 
     protected override void Awake()
@@ -67,15 +68,21 @@ public class TowerManager : SaiSingleton<TowerManager>
         return (this.towerInfoManager.GetTowerPrice(towerCode));
     }
 
-    protected virtual bool CanBuyTower()
+    protected virtual bool CanBuySelectedTower()
     {
-        return this.CanBuyTower(this.selectedTower);
+        return this.CanBuyTowerByCode(this.selectedTower);
     }
 
-    public virtual bool CanBuyTower(TowerCode towerCode)
+    public virtual bool CanBuyTowerByCode(TowerCode towerCode)
     {
-        int goldCount = InventoriesManager.Instance.GetPlayerGold();
-        return goldCount >= this.GetTowerPrice(towerCode) ? true : false;
+        if (towerCode == TowerCode.NoTower) return true;
+        return CanBuyTower[towerCode];
+    }
+
+    public virtual bool CanBuyUpgrade(TowerCode towerCode)
+    {
+        TowerCode upgradeCode = TowerManager.Instance.TowerPriceManager.GetUpgrade(towerCode);
+        return this.CanBuyTowerByCode(upgradeCode);
     }
 
     protected virtual void FixedUpdate()
@@ -148,7 +155,7 @@ public class TowerManager : SaiSingleton<TowerManager>
             this.selectedPlaceAble == null ||
             !this.selectedPlaceAble.CanPlace() ||
             this.selectedTower == TowerCode.NoTower ||
-            !this.CanBuyTower())
+            !this.CanBuySelectedTower())
         {
             //Hide template
             this.HideTemplate();
@@ -174,7 +181,7 @@ public class TowerManager : SaiSingleton<TowerManager>
     protected virtual void PlaceFinish()
     {
         if (!this.selectedPlaceAble.CanPlace()) return;
-        if (!this.CanBuyTower())
+        if (!this.CanBuySelectedTower())
         {
             EffectCtrl prefabRed = EffectSpawnerCtrl.Instance.Prefabs.GetByName(EffectCode.Place2.ToString());
             EffectCtrl newEfffectRed = EffectSpawnerCtrl.Instance.Spawner.Spawn(prefabRed, this.selectedPlaceAble.GetPosition(), transform.rotation);
@@ -251,4 +258,28 @@ public class TowerManager : SaiSingleton<TowerManager>
 
     }
 
+    public override void Init()
+    {
+        InventoriesManager.Instance.OnGoldChanged += OnGoldChanged;
+    }
+
+
+    private void OnGoldChanged(int newGold)
+    {
+        var allTowerCodes = towerInfoManager.GetAllTowerCodes();
+        foreach (var towerCode in allTowerCodes)
+        {
+            int towerPrice = GetTowerPrice(towerCode);
+            bool canBuy = (newGold >= towerPrice);
+
+            if (!CanBuyTower.ContainsKey(towerCode))
+            {
+                CanBuyTower.Add(towerCode, canBuy);
+            }
+            else
+            {
+                CanBuyTower[towerCode] = canBuy;
+            }
+        }
+    }
 }

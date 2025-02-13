@@ -38,7 +38,7 @@ public class BtnSelectTower : ButttonAbstract
 
     protected virtual void UpdateUI()
     {
-        if (canBuyTower != TowerManager.Instance.CanBuyTower(this.towerCode))
+        if (canBuyTower != TowerManager.Instance.CanBuyTowerByCode(this.towerCode))
         {
             this.ToogleBG();
         }

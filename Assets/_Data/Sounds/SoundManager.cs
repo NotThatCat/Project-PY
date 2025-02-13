@@ -21,7 +21,7 @@ public class SoundManager : SaiSingleton<SoundManager>
     protected override void Awake()
     {
         base.Awake();
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
     }
 
     protected override void Start()

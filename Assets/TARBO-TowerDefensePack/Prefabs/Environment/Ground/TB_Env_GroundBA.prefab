@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 33982805288164452}
   - component: {fileID: 23234027074554030}
   - component: {fileID: 7246125855847620638}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: TB_Env_GroundBA
   m_TagString: Untagged
   m_Icon: {fileID: 0}

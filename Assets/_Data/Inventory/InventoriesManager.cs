@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using UnityEngine;
@@ -9,9 +10,15 @@ public class InventoriesManager : SaiSingleton<InventoriesManager>
 
     [SerializeField] protected int startUpGold = 100;
 
+    public event Action<int> OnGoldChanged;
+
     protected override void Awake()
     {
         base.Awake();
+    }
+
+    public override void Init()
+    {
         InventoriesManager.Instance.AddItem(ItemCode.Gold, this.startUpGold);
     }
 
@@ -84,6 +91,10 @@ public class InventoriesManager : SaiSingleton<InventoriesManager>
         ItemProfileSO itemProfile = this.GetProfileByCode(itemCode);
         ItemInventory item = new(itemProfile, itemCount);
         this.AddItem(item);
+        if(itemProfile.itemCode == ItemCode.Gold)
+        {
+            OnGoldChanged?.Invoke(this.GetPlayerGold());
+        }
     }
 
     public virtual void RemoveItem(ItemCode itemCode, int itemCount)
