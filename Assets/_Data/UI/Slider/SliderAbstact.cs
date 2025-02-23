@@ -21,7 +21,7 @@ public abstract class SliderAbstact : PMono
     {
         if (this.slider != null) return;
         this.slider = GetComponent<Slider>();
-        Debug.Log(transform.name + ": LoadSlider", gameObject);
+        //Debug.Log(transform.name + ": LoadSlider", gameObject);
     }
 
     protected abstract void OnSliderValueChanged(float value);

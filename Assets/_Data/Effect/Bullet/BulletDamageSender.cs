@@ -33,7 +33,7 @@ public class BulletDamageSender : DamageSender
     {
         DamageReceiver damageReceiver = base.SendDamage(collider);
         if (damageReceiver == null) return null;
-        this.despawn.DoDespawn();
+        //this.despawn.DoDespawn();
         return damageReceiver;
     }
 }

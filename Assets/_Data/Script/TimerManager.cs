@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class TimerManager : SaiSingleton<TimerManager>
@@ -46,5 +47,12 @@ public class TimerManager : SaiSingleton<TimerManager>
     {
         if (this.lookups.ContainsKey(timerID)) StopCoroutine(this.lookups[timerID]);
         lookups.Remove(timerID);
+    }
+    public virtual void ResetTimer()
+    {
+        foreach (var timerID in lookups.Keys.ToList())
+        {
+            StopTimer(timerID);
+        }
     }
 }

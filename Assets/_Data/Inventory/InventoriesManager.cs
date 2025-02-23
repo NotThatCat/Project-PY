@@ -22,6 +22,11 @@ public class InventoriesManager : SaiSingleton<InventoriesManager>
         InventoriesManager.Instance.AddItem(ItemCode.Gold, this.startUpGold);
     }
 
+    protected virtual void Start()
+    {
+
+    }
+
     protected override void LoadComponents()
     {
         base.LoadComponents();

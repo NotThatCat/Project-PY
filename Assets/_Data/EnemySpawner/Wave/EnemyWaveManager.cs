@@ -9,6 +9,8 @@ public class EnemyWaveManager : SaiSingleton<EnemyWaveManager>
     [SerializeField] protected List<EnemyWave> enemyWaves = new();
     [SerializeField] protected int nextWaveID = 0;
     [SerializeField] protected int timerID = -1;
+    [SerializeField] protected bool isComplete = false;
+    [SerializeField] public bool IsComplete => isComplete;
 
     [SerializeField] protected Action<int> OnWaveChange;
 
@@ -59,6 +61,10 @@ public class EnemyWaveManager : SaiSingleton<EnemyWaveManager>
         if (this.nextWaveID < this.enemyWaves.Count)
         {
             this.timerID = TimerManager.Instance.StartTimer(nextWave, this.StartNextWave);
+        }
+        else
+        {
+            this.isComplete = true;
         }
     }
 

@@ -75,6 +75,7 @@ public class TowerManager : SaiSingleton<TowerManager>
 
     public virtual bool CanBuyTowerByCode(TowerCode towerCode)
     {
+        this.UpdateCanBuyTower();
         if (towerCode == TowerCode.NoTower) return true;
         return CanBuyTower[towerCode];
     }
@@ -263,9 +264,13 @@ public class TowerManager : SaiSingleton<TowerManager>
         InventoriesManager.Instance.OnGoldChanged += OnGoldChanged;
     }
 
-
-    private void OnGoldChanged(int newGold)
+    protected void OnGoldChanged(int newGold = -1)
     {
+        if (newGold == -1)
+        {
+            newGold = InventoriesManager.Instance.GetPlayerGold();
+        }
+
         var allTowerCodes = towerInfoManager.GetAllTowerCodes();
         foreach (var towerCode in allTowerCodes)
         {
@@ -281,5 +286,10 @@ public class TowerManager : SaiSingleton<TowerManager>
                 CanBuyTower[towerCode] = canBuy;
             }
         }
+    }
+
+    protected virtual void UpdateCanBuyTower()
+    {
+        this.OnGoldChanged();
     }
 }

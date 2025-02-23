@@ -26,8 +26,8 @@ public class ButtonUpgradeTower : ButtonInteractTower
         if (this.placeAble != null)
         {
             this.towerCtrl = this.placeAble.TowerCtrl;
-            TowerCode upgradeCode = TowerManager.Instance.TowerPriceManager.GetUpgrade(this.placeAble.TowerCtrl.Code);
-            this.upgradePrice = TowerManager.Instance.TowerPriceManager.GetUpgradePrice(upgradeCode);
+            //TowerCode upgradeCode = TowerManager.Instance.TowerPriceManager.GetUpgrade(this.placeAble.TowerCtrl.Code);
+            this.upgradePrice = TowerManager.Instance.TowerPriceManager.GetUpgradePrice(this.placeAble.TowerCtrl.Code);
             if (this.upgradePrice < 0)
             {
                 this.isMaxed = true;

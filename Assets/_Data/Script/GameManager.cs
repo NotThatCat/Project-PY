@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -41,6 +42,8 @@ public class GameManager : SaiSingleton<GameManager>
 
     public virtual void Restart()
     {
+        this.CleanUp();
+        PlayerCtrl.Instance.gameObject.SetActive(true);
         SceneManager.LoadScene(this.CurrentScene);
 
         Time.timeScale = 1;
@@ -49,12 +52,15 @@ public class GameManager : SaiSingleton<GameManager>
 
     public virtual void MainMenu()
     {
+        this.CleanUp();
         SceneManager.LoadScene("MainMenu");
         this.CurrentScene = "MainMenu";
+        PlayerCtrl.Instance.gameObject.SetActive(false);
     }
 
     public virtual void StartLevel(int level)
     {
+        PlayerCtrl.Instance.gameObject.SetActive(true);
         SceneManager.LoadScene("Level_" + level);
         this.CurrentScene = "Level_" + level;
 
@@ -72,5 +78,17 @@ public class GameManager : SaiSingleton<GameManager>
     public virtual void GameOver()
     {
         UIGameOver.Instance.Show();
+        Time.timeScale = 0;
+        PlayerCtrl.Instance.gameObject.SetActive(false);
+    }
+
+    protected virtual void CleanUp()
+    {
+        TimerManager.Instance.ResetTimer();
+    }
+
+    public virtual void LevelComplete()
+    {
+        UIGameVictory.Instance.Toggle();
     }
 }

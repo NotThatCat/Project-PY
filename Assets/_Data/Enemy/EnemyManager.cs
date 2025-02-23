@@ -5,6 +5,7 @@ using UnityEngine;
 public class EnemyManager : SaiSingleton<EnemyManager>
 {
     [SerializeField] protected List<EnemyCtrl> enemies = new List<EnemyCtrl>();
+    [SerializeField] protected bool isComplete = false;
 
     void Update()
     {
@@ -13,6 +14,7 @@ public class EnemyManager : SaiSingleton<EnemyManager>
         {
             enemies[i].UpdateLogic(dt);
         }
+        this.CheckStatus();
     }
 
     public void AddEnemy(EnemyCtrl e)
@@ -31,4 +33,13 @@ public class EnemyManager : SaiSingleton<EnemyManager>
         }
     }
 
+    public virtual void CheckStatus()
+    {
+        //if (enemies.Count == 0) this.isComplete = true;
+        if (!this.isComplete && this.enemies.Count == 0 && EnemyWaveManager.Instance.IsComplete)
+        {
+            this.isComplete = true;
+            GameManager.Instance.LevelComplete();
+        }
+    }
 }

@@ -26,7 +26,6 @@ public class BulletStunDamageSender : BulletDamageSender
     {
         DamageReceiver damageReceiver = base.SendDamage(collider);
         if (damageReceiver == null) return null;
-        this.despawn.DoDespawn();
         return damageReceiver;
     }
 
