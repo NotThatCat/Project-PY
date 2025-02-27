@@ -83,6 +83,7 @@ public class EnemyWaveManager : SaiSingleton<EnemyWaveManager>
 
         if (this.nextWaveID < enemyWaves.Count)
         {
+            OnWaveChange.Invoke(this.nextWaveID + 1);
             this.enemyWaves[this.nextWaveID].gameObject.SetActive(true);
             this.enemyWaves[this.nextWaveID].StartWave();
         }
