@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class InputManager : SaiSingleton<InputManager>
 {
@@ -17,6 +18,12 @@ public class InputManager : SaiSingleton<InputManager>
     {
         if (Input.GetMouseButtonDown(0))
         {
+            if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
+            {
+                //Debug.Log("Click UI, no raycast");
+                return;
+            }
+
             //Debug.Log("Mouse Down");
             PlayerInteractAble interactAble = InputHotkeys.Instance.PlayerInteractAble;
             if (interactAble != null)

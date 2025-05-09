@@ -25,7 +25,7 @@ public class BulletCanonDamageSender : BulletDamageSender
     {
         DamageReceiver damageReceiver = base.SendDamage(collider);
         if (damageReceiver == null) return null;
-        Debug.Log(transform.name + ": SendDamage " + collider.gameObject.name, gameObject);
+        //Debug.Log(transform.name + ": SendDamage " + collider.gameObject.name, gameObject);
         return damageReceiver;
     }
 
@@ -36,7 +36,7 @@ public class BulletCanonDamageSender : BulletDamageSender
         {
             this.SendDamage();
             this.SpawnExplosion();
-            Debug.Log(transform.name + ": OnTriggerEnter", gameObject);
+            //Debug.Log(transform.name + ": OnTriggerEnter", gameObject);
             this.despawn.DoDespawn();
             return;
         }

@@ -44,7 +44,14 @@ public class InputHotkeys : SaiSingleton<InputHotkeys>
 
     protected virtual void GetInteractable()
     {
-        if (EventSystem.current.IsPointerOverGameObject()) return;
+        if (EventSystem.current.IsPointerOverGameObject())
+        {
+            if (playerInteractAble != null)
+            {
+                playerInteractAble.UnInteract();
+            }
+            this.playerInteractAble = null;
+        }
         Vector3 mousePosition = Input.mousePosition;
         Ray ray = Camera.main.ScreenPointToRay(mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hitInfo, this.maxDistance, layerMask))
@@ -57,7 +64,7 @@ public class InputHotkeys : SaiSingleton<InputHotkeys>
         {
             this.playerInteractAble = null;
         }
-        Debug.DrawLine(ray.origin, hitInfo.point, Color.green);
+        //Debug.DrawLine(ray.origin, hitInfo.point, Color.green);
     }
 
     protected virtual void OpenInventory()
